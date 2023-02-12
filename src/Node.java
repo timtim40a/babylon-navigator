@@ -69,10 +69,10 @@ public class Node {
 
     public void printNodes() {
         if (prevNode != null) {
-            System.out.println("o - " + this.getName() + "\n|\n|\n|");
             prevNode.printNodes();
+            System.out.println("|\n|  -  distance: " + (this.distanceFromStart - prevNode.getDistanceFromStart()) + "\n|\n" + "0 " + this.getName() + " X:" + this.x + " Y:" + this.y);
         } else {
-            System.out.println("o - " + this.getName());
+            System.out.println("0 " + this.getName() + " X:" + this.x + " Y:" + this.y);
         }
     }
 
