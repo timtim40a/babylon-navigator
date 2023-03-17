@@ -1,0 +1,59 @@
+[
+    {
+      "name" : "Babylon",
+      "latitude": 14,
+      "longitude": 7
+      },{
+      "name" : "Rezeph",
+      "latitude": 9,
+      "longitude": 9
+      },{
+      "name" : "Damascus",
+      "latitude": 8,
+      "longitude": 7
+      },{
+      "name" : "Jerusalem",
+      "latitude": 7,
+      "longitude": 6
+      },{
+      "name" : "Memphis",
+      "latitude": 4,
+      "longitude": 4
+      },{
+      "name" : "Paphos",
+      "latitude": 5,
+      "longitude": 8
+      },{
+      "name" : "Melidu",
+      "latitude": 9,
+      "longitude": 11
+      },{
+      "name" : "Tushpa",
+      "latitude": 12,
+      "longitude": 12
+      },{
+      "name" : "Arrapha",
+      "latitude": 13,
+      "longitude": 10
+      },{
+      "name" : "Echatana",
+      "latitude": 16,
+      "longitude": 9
+      },{
+      "name" : "Susa",
+      "latitude": 16,
+      "longitude": 7
+      },{
+      "name" : "Tarsus",
+      "latitude": 6,
+      "longitude": 10
+      },{
+      "name" : "Carchemish",
+      "latitude": 9,
+      "longitude": 10
+      },{
+      "name" : "Arabian Desert",
+      "latitude": 11,
+      "longitude": 5
+       }
+]

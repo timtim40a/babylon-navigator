@@ -1,111 +1,111 @@
+import com.google.gson.Gson;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
-
 public class Main {
-
-
-
     public static void main(String[] args) {
-        PriorityQueue<Node> path = new PriorityQueue<>(20, Comparator.comparingDouble(Node::getDistanceFromStart));
-        Node BAB = new Node("Babylon", 14, 7);
-        Node REZ = new Node("Rezeph", 9, 9);
-        Node DAM = new Node("Damascus", 8, 7);
-        Node JER = new Node("Jerusalem", 7, 6);
-        Node MEM = new Node("Memphis", 4, 4);
-        Node PAP = new Node("Paphos", 5, 8);
-        Node MLD = new Node("Melidu", 9, 11);
-        Node TUS = new Node("Tushpa", 12, 12);
-        Node ARR = new Node("Arrapha", 13, 10);
-        Node ECH = new Node("Echatana", 16, 9);
-        Node SUS = new Node("Susa", 16, 7);
-        Node TRS = new Node("Tarsus", 6, 10);
-        Node AD = new Node("Arabian Desert", 11, 5);
 
-        MEM.makeNeighbours(PAP);
-        MEM.makeNeighbours(JER);
+        PriorityQueue<Vertex> path = new PriorityQueue<>(20, Comparator.comparingDouble(Vertex::getDistanceFromStart));
 
-        PAP.makeNeighbours(TRS);
+        Gson gson = new Gson();
 
-        JER.makeNeighbours(PAP);
-        JER.makeNeighbours(DAM);
-        JER.makeNeighbours(AD);
+        Vertex[] vertices = new Vertex[0];
 
-        DAM.makeNeighbours(AD);
-        DAM.makeNeighbours(REZ);
+        try (FileReader vertexReader = new FileReader("jsons/babylonVertices.json")) {
+            vertices = gson.fromJson(vertexReader, Vertex[].class);
+            for (Vertex vertex : vertices) {
+                vertex.setAdjacentEdges(new ArrayList<>());
+                System.out.println(vertex);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        REZ.makeNeighbours(MLD);
-        REZ.makeNeighbours(ARR);
-        REZ.makeNeighbours(BAB);
+        Graph graph = new Graph(new ArrayList<>(), new ArrayList<>(), "test");
 
-        MLD.makeNeighbours(TUS);
-        MLD.makeNeighbours(ARR);
-        MLD.makeNeighbours(TRS);
+        for (Vertex vertex: vertices) {
+            graph.vertices().add(vertex);
+        }
 
-        ARR.makeNeighbours(TUS);
-        ARR.makeNeighbours(BAB);
-        ARR.makeNeighbours(ECH);
+        String[][] edges = new String[0][0];
 
-        BAB.makeNeighbours(AD);
-        BAB.makeNeighbours(SUS);
+        try (FileReader edgeReader = new FileReader("jsons/babylonEdges.json")) {
+            edges = gson.fromJson(edgeReader, String[][].class);
+            for (String[] edgeSet : edges) {
+                System.out.println(Arrays.toString(edgeSet));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        ECH.makeNeighbours(SUS);
+        for (Vertex vertex: vertices) {
+            graph.getVertexNames().put(vertex.getName(), vertex);
+        }
 
-        Node[] nodeArray = new Node[13];
-        nodeArray[0] = BAB;
-        nodeArray[1] = REZ;
-        nodeArray[2] = DAM;
-        nodeArray[3] = JER;
-        nodeArray[4] = MEM;
-        nodeArray[5] = PAP;
-        nodeArray[6] = MLD;
-        nodeArray[7] = TUS;
-        nodeArray[8] = ARR;
-        nodeArray[9] = ECH;
-        nodeArray[10] = SUS;
-        nodeArray[11] = TRS;
-        nodeArray[12] = AD;
+        for (int i = 0; i < edges.length; i++) {
+            Vertex v1 = graph.vertices().get(i);
+            for (int j = 0; j < edges[i].length; j++) {
+                Vertex v2 = graph.getVertexNames().get(edges[i][j]);
+                Edge e = new Edge(v1, v2, v1.getName() + "-" + edges[i][j]);
+                graph.edges().add(e);
+            }
+            System.out.println(v1);
+        }
 
         Scanner in = new Scanner(System.in);
         System.out.println("From: ");
         String startName = in.nextLine();
         System.out.println("To: ");
         String destinationName = in.nextLine();
-        Node start = null;
-        Node destination = null;
+        Vertex start = null;
+        Vertex destination = null;
 
-        for (int i = 0; i < 12; i++) {
-            nodeArray[i].setDistanceFromStart(2147483647);
-            if (Objects.equals(nodeArray[i].getName(), startName)) {
-                start = nodeArray[i];
+        for (Vertex vertex : graph.vertices()) {
+            vertex.setDistanceFromStart(2_147_483_647);
+            if (Objects.equals(vertex.getName(), startName)) {
+                start = vertex;
                 start.setDistanceFromStart(0);
-            } else if (Objects.equals(nodeArray[i].getName(), destinationName)) {
-                destination = nodeArray[i];
+            } else if (Objects.equals(vertex.getName(), destinationName)) {
+                destination = vertex;
             }
-            path.add(nodeArray[i]);
+            path.add(vertex);
         }
-        if(start == null || destination == null) {
+        if (start == null || destination == null) {
             throw new NoSuchElementException();
         }
 
-        Node currentNode;
+        Vertex currentVertex;
         while (!destination.isVisited()) {
-            currentNode = path.remove();
-            currentNode.makeVisited();
-            for (int i = 0; i < currentNode.getNeighAmount(); i++) {
-                Edge currentCheck = new Edge(currentNode, currentNode.getNeighbours()[i]);
-                if (currentCheck.getWeight() + currentNode.getDistanceFromStart() < currentCheck.getEndNode().getDistanceFromStart()) {
-                    currentCheck.getEndNode().setDistanceFromStart(currentCheck.getWeight() + currentNode.getDistanceFromStart());
-                    currentCheck.getEndNode().setPrevNode(currentNode);
-                    path.remove(currentCheck.getEndNode());
-                    path.add(currentCheck.getEndNode());
+            currentVertex = path.remove();
+            currentVertex.setVisited();
+            for (int i = 0; i < currentVertex.getAdjacentEdges().size(); i++) {
+                Edge currentCheck = currentVertex.getAdjacentEdges().get(i);
+                if (currentCheck.getWeight() + currentVertex.getDistanceFromStart() < currentCheck.getEndVertex().getDistanceFromStart()) {
+                    currentCheck.getEndVertex().setDistanceFromStart(currentCheck.getWeight() + currentVertex.getDistanceFromStart());
+                    currentCheck.getEndVertex().setPreviousVertex(currentVertex);
+                    path.remove(currentCheck.getEndVertex());
+                    path.add(currentCheck.getEndVertex());
                 }
             }
         }
 
         destination.printNodes();
+        System.out.println("\nTotal distance: " + destination.getDistanceFromStart());
+        pressEnterToContinue();
+    }
 
-
-
-
+    private static void pressEnterToContinue()
+    {
+        System.out.println("Press Enter key to continue...");
+        try
+        {
+            int temp = System.in.read();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

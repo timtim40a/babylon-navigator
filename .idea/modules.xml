@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dijkstra-babylon.iml" filepath="$PROJECT_DIR$/dijkstra-babylon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BabylonNavigator.iml" filepath="$PROJECT_DIR$/BabylonNavigator.iml" />
     </modules>
   </component>
 </project>

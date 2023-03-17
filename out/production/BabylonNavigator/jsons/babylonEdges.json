@@ -1,0 +1,30 @@
+[
+  ["Arabian Desert", "Arrapha", "Echatana", "Susa"],
+
+  ["Babylon", "Damascus", "Melidu", "Carchemish", "Arrapha"],
+
+  ["Arabian Desert", "Jerusalem", "Rezeph"],
+
+  ["Arabian Desert", "Damascus", "Paphos", "Memphis"],
+
+  ["Jerusalem", "Paphos"],
+
+  ["Tarsus", "Memphis", "Jerusalem"],
+
+  ["Rezeph", "Carchemish", "Tarsus", "Tushpa", "Arrapha"],
+
+  ["Melidu", "Arrapha"],
+
+  ["Rezeph", "Melidu", "Echatana", "Tushpa", "Babylon"],
+
+  ["Arrapha", "Susa"],
+
+  ["Echatana", "Babylon"],
+
+  ["Carchemish", "Melidu", "Paphos"],
+
+  ["Rezeph", "Melidu", "Tarsus"],
+
+  ["Damascus", "Babylon", "Jerusalem"]
+
+]

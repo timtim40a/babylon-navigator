@@ -1,34 +1,46 @@
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class Edge implements Comparable<Edge>{
-
-    private final Node startNode;
-    private final Node endNode;
+public class Edge {
+    private final Vertex startVertex;
+    private final Vertex endVertex;
     private final double weight;
+    private String name;
 
-    public Edge(Node givenNd1, Node givenNd2) {
-        startNode = givenNd1;
-        endNode = givenNd2;
-        weight = sqrt(pow(endNode.getX() - startNode.getX(), 2) + pow(endNode.getY() - startNode.getY(), 2));
+    public Edge(Vertex startVertex, Vertex endVertex, String name) {
+        this.startVertex = startVertex;
+        this.endVertex = endVertex;
+        this.name = name;
+        this.startVertex.addAdjacency(this);
+        this.weight = sqrt(pow(endVertex.getLatitude() - startVertex.getLatitude(), 2) + pow(endVertex.getLongitude() - startVertex.getLongitude(), 2));
     }
 
-    @Override
-    public int compareTo(Edge p) {
-        return Double.compare(this.weight, p.weight);
+    public Vertex getStartVertex() {
+        return startVertex;
+    }
+
+    public Vertex getEndVertex() {
+        return endVertex;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getWeight() {
         return weight;
     }
 
-    public Node getStartNode() {
-        return startNode;
+
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "name='" + name + '\'' +
+                '}';
     }
-
-    public Node getEndNode() {
-        return endNode;
-    }
-
-
 }
